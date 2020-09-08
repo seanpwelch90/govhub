@@ -84,21 +84,3 @@ class AddPlace extends Component {
 }
 
 export default AddPlace;
-
-{/* <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Place:
-            <input type="text" name="label" onChange={this.handleLabelChange} />
-          </label>
-          <label>
-            Lat:
-            <input type="text" name="latitude" onChange={this.handleLatChange} />
-          </label>
-          <label>
-            Long:
-            <input type="text" name="longitude" onChange={this.handleLongChange} />
-          </label>
-          <button type="submit">Add</button>
-        </form>
-      </div> */}

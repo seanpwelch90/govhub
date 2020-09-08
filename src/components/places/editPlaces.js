@@ -18,8 +18,7 @@ class EditPlace extends Component {
     axios.get(`https://app.gwoodhouse.com/places/${this.props.history.location.state.id}`)
       .then(res => {
         this.setState({placeLabel: res.data.label, latitude: res.data.latitude, longitude: res.data.longitude});
-        console.log(res.data.label);
-        console.log(this.state.placeLabel); 
+
         this.formRef.current.setFieldsValue({
             label: this.state.placeLabel, 
             latitude: this.state.latitude, 
