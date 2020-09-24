@@ -30,7 +30,10 @@ class LoginPage extends Component {
         
         User.login(this.state.userName, this.state.password)
         .then(() =>
-        this.props.history.push('/')
+        this.props.history.push({
+            pathname: '/',
+            message: 'Successfully logged in!'
+        })
         )
 
       };

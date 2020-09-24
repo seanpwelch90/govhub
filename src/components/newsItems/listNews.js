@@ -1,61 +1,74 @@
 import React, {Component} from 'react';
-import MapView from '../Map';
-import { List, Divider, Row, Col } from 'antd';
-import NewsList from '../newsItems/listNews';
+import { Button, Card, Divider, Row, Spin } from 'antd';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import User from '../../robots/UserRobot';
+import Places from '../places/listPlaces';
 
-class Places extends Component {
+const { Meta } = Card;
+
+class NewsList extends Component {
 
     state = {
-        places: [],
+        newsItems: [],
         isLoading: false
       }
 
     componentDidMount() {
     this.setState({ isLoading: true })
-    fetch('https://app.gwoodhouse.com/places')
-    .then(res => res.json())
-    .then((data) => {
-        this.setState({ places: data, isLoading: false })
+    axios.get('https://app.gwoodhouse.com/news-items', {
+        headers: {
+            'Authorization': 'Bearer ' + User.getCurrentUser().jwt
+        }
     })
-    .catch(console.log)
-    }    
+    .then(({ data })=> {
+        this.setState({ 
+        newsItems: data, 
+        isLoading: false
+      });
+    })
+    .catch((err)=> {})
+      
+    };
 
   render () {
 
-    const { places, isLoading } = this.state
+    const { newsItems, isLoading } = this.state
 
     if (isLoading) {
-      return <p>Loading ...</p>;
+      return <Spin />
     } else {
 
     return (
-      <div style={{ padding: '25px' }}>
-      <NewsList />
-
-      <Divider>Places</Divider>
-      <Row gutter={16}>
-                      
-          <Col span={12}>
-          <List
-          shape="rounded"
-        itemLayout="horizontal"
-        dataSource={places}
-        bordered
-        style={{ padding: '15px', cornerRadius: '15px' }}
-        renderItem={place => (
-          <List.Item
-            actions={[<a key="list-loadmore-edit">edit</a>, <a key="list-loadmore-more">more</a>]}
-          >
-              <List.Item.Meta
-                title={<a href="https://ant.design">{place.label}</a>}
+      <div>
+      <Divider>News</Divider>
+      <Row>
+      {newsItems.map((news) => (
+            
+            <Card
+            hoverable
+            style={{ width: 250 }}
+            cover={
+              <img
+                alt="example"
+                src={"https://app.gwoodhouse.com" + news.mainImage.formats.medium.url}
               />
-          </List.Item>
-        )}
-      />
-          </Col>
-          <Col span={12}>
-          <MapView />
-          </Col>
+            }
+            
+          >
+
+<Meta
+      
+      title={news.title}
+      description={news.subtitle}
+    />
+            
+          </Card>
+
+
+                  ))}
+
+          
           </Row>
       
 
@@ -90,4 +103,4 @@ class Places extends Component {
   }
 }
 
-export default Places;
+export default NewsList;

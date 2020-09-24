@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import NewsList from './newsItems/listNews';
 
 
 class Test extends Component {
@@ -6,7 +7,7 @@ class Test extends Component {
   render () {
     return (
       <div>
-          <p>Test</p>
+          <NewsList />
         </div>
     );
   }

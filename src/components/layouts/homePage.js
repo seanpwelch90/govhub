@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Button, Space, Col, Row, Avatar } from 'antd';
+import { Layout, Menu, Button, Space, Col, Row, Avatar, message, Dropdown } from 'antd';
 
 import User from '../../robots/UserRobot';
 
@@ -19,10 +19,30 @@ import { UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 
 const { Header, Content, Sider } = Layout;  
 
+const menu = (
+  <Menu>
+    
+    <Menu.Item key="0">
+    <Link to="/new">
+        Place
+    </Link>
+    </Menu.Item>
+    <Menu.Divider />
+    <Menu.Item key="1">
+      <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
+        2nd menu item
+      </a>
+    </Menu.Item>
+    <Menu.Divider />
+    
+  </Menu>
+);
+
 class Homepage extends Component {
 
     state = {
-      currentUser: User.getCurrentUser()
+      currentUser: User.getCurrentUser(),
+      message: this.props.location.message
     }
 
     logOut() {
@@ -33,7 +53,10 @@ class Homepage extends Component {
 
     componentDidMount()
     {
-      console.log(this.state.currentUser);
+
+      if (this.state.message) {
+        message.success(this.state.message);
+      }
     }
     
     render () {
@@ -65,6 +88,7 @@ class Homepage extends Component {
                             <Link to="/test" />
                       </Menu.Item>
                     </Menu>
+                    
                   </Sider>
                   <Layout>
                     <Header className="site-layout-sub-header-background">
@@ -75,7 +99,10 @@ class Homepage extends Component {
                           <Link to="/test"><Button style={{ background: "orange", borderColor: "orange"  }} type="dashed">Test</Button></Link>
                           <Link to="/new"><Button type="primary">Add Place</Button></Link>
                           <Button type="primary" style={{ background: "red", borderColor: "red" }} onClick={() => {this.logOut()}}>LogOut</Button>
-    
+                          <Dropdown overlay={menu}>
+                          <Button>Add</Button>
+
+                          </Dropdown>
 
                         </Space>
                       </Col>
